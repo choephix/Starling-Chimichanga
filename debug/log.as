@@ -1,4 +1,4 @@
-package debug 
+package debug
 {
 	/**
 	 * ...
@@ -7,7 +7,7 @@ package debug
 	
 	public function log( msg:Object, condition:Boolean = Log.CND_UNDEFINED ):void {
 		
-		Log.print( msg, condition );
+		Logger.printLog( msg, condition );
 		
 	}
 

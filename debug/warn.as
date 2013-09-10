@@ -7,7 +7,7 @@ package debug {
 		
 	public function warn( msg:Object, condition:Boolean = Log.CND_UNDEFINED ):void {
 		
-		Log.printWarning( msg, condition );
+		Logger.printWarning( msg, condition );
 		
 	}
 

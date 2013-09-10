@@ -7,7 +7,7 @@ package debug {
 		
 	public function error( msg:Object ):void {
 		
-		Log.printError( arguments.callee + ": " +msg );
+		Logger.printError( arguments.callee + ": " +msg );
 		
 	}
 
