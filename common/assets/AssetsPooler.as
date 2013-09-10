@@ -6,13 +6,14 @@ package chimichanga.common.assets {
 	import starling.textures.Texture;
 	
 	/**
-	 * ...
+	 * Wraps AdvancedAssetsManager while also pooling textures in a Dictionary.
+	 * IMPORTANT!! because duplicate textures are returned as the same instance (the aforementioned texture-pooling) any changes you make to an actual texture object retrieved from here will appear on all DisplayObjects showing the same texture. Be cautious and consider using just the AdvancedAssetsManager instead of this class if you plan on fiddling with texture properties.
 	 * @author choephix
 	 */
 	public class AssetsPooler implements IAssetsManager {
 		
 		private var assets:AdvancedAssetsManager;
-		private var pool:Dictionary = new Dictionary(true);
+		private var texturePool:Dictionary = new Dictionary(true);
 		private var _img:Image;
 		
 		public function AssetsPooler( assets:AdvancedAssetsManager ) {
@@ -42,11 +43,11 @@ package chimichanga.common.assets {
 		
 		public function getTexture( name:String, atlas:String = "" ):Texture {
 			
-			if ( pool[ name ] is Texture ) {
-				return pool[ name ] as Texture;
+			if ( texturePool[ name ] is Texture ) {
+				return texturePool[ name ] as Texture;
 			}
 			
-			pool[ name ] = assets.getTexture( name, atlas );
+			texturePool[ name ] = assets.getTexture( name, atlas );
 			return assets.getTexture( name, atlas );
 			
 		}

@@ -1,18 +1,12 @@
 package chimichanga.common.assets
 {
 	import chimichanga.debug.error;
-	import global.Files;
-	import starling.display.BlendMode;
-	import flash.geom.Point;
+	import chimichanga.utils.Files;
 	import flash.system.Capabilities;
 	import flash.system.System;
-	import global.Conf;
 	import starling.animation.Juggler;
-	import starling.core.Starling;
 	import starling.display.Image;
 	import starling.display.MovieClip;
-	import starling.errors.AbstractClassError;
-	import starling.events.Event;
 	import starling.extensions.krecha.ScrollImage;
 	import starling.extensions.krecha.ScrollTile;
 	import starling.textures.Texture;
@@ -26,7 +20,7 @@ package chimichanga.common.assets
 		
 		public var assetsReady:Boolean = false;
 		
-		private var assets:AssetManager = new AssetManager();
+		private var assets:AssetManager;
 		
 		private var _atlas:TextureAtlas;
 		private var _texture:Texture;
@@ -35,16 +29,18 @@ package chimichanga.common.assets
 		private var _img:Image;
 		private var _i:uint;
 		
-		public function AdvancedAssetsManager() {
+		public function AdvancedAssetsManager( noTextureTexturePath:String = "assets/NoTextureTexture.png" ) {
 			
+			assets = new AssetManager();
 			assets.verbose = Capabilities.isDebugger;
+			assets.enqueue( Files.getFileOrPath( noTextureTexturePath ) );
+			
 		}
 		
 		public function init( scaleFactor:Number = 1, callback:Function = null, ...rest ):void {
 			
 			assets.scaleFactor = scaleFactor;
 			
-			assets.enqueue( Files.getFileOrPath( "assets/NoTextureTexture.png" ) );
 			assets.enqueue.apply( null, rest );
 			
 			assets.loadQueue( function(ratio:Number):void {
