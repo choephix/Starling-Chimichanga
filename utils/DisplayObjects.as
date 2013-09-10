@@ -4,7 +4,7 @@ package chimichanga.utils {
 	import starling.display.Image;
 	import starling.display.MovieClip;
 	import starling.events.Event;
-	import utils.SmartDisplayObject;
+	import chimichanga.common.display.SmartDisplayObject;
 	
 	/**
 	 * ...

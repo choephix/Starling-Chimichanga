@@ -1,4 +1,4 @@
-package chimichanga.common {
+package chimichanga.common.display {
 	import flash.geom.Point;
 	import starling.display.DisplayObject;
 	
