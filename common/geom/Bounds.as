@@ -1,5 +1,5 @@
 package chimichanga.common.geom {
-	import engine.utils.helpers.MathF;
+	import engine.chimichanga.utils.MathF;
 	
 	/**
 	 * ...
