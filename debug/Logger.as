@@ -1,4 +1,4 @@
-package  {
+package chimichanga.debug {
 	
 	/**
 	 * ...
@@ -44,7 +44,7 @@ package  {
 		
 		public static function printWarning( msg:Object, condition:Boolean = CND_UNDEFINED ):void {
 			
-			print( "2: " + String(msg), Log.CND_WARNINGS && condition );
+			print( "2: " + String(msg), CND_WARNINGS && condition );
 			
 		}
 		

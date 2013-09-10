@@ -1,5 +1,5 @@
 package chimichanga.common.display {
-	import debug.error;
+	import chimichanga.debug.error;
 	import global.Conf;
 	import starling.core.Starling;
 	import starling.display.Image;

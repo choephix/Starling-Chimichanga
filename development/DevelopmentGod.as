@@ -1,4 +1,5 @@
 package chimichanga.development {
+	import chimichanga.debug.warn;
 	import flash.ui.Keyboard;
 	import game.events.GameEvent;
 	import game.Game;

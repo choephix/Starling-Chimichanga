@@ -1,6 +1,6 @@
 package chimichanga.common.assets
 {
-	import debug.error;
+	import chimichanga.debug.error;
 	import global.Files;
 	import starling.display.BlendMode;
 	import flash.geom.Point;
