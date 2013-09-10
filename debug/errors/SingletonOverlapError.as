@@ -1,4 +1,4 @@
-package errors {
+package chimichanga.debug.errors {
 	
 	/**
 	 * ...
