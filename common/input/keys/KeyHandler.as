@@ -1,4 +1,4 @@
-package chimichanga.development {
+package chimichanga.common.input.keys {
 	import flash.ui.Keyboard;
 	import starling.display.Stage;
 	import starling.events.Event;
