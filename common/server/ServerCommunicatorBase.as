@@ -1,7 +1,5 @@
 package chimichanga.common.server {
 	import flash.net.URLVariables;
-	import server.loader.DataLoaderFactory;
-	import server.requests.ServerRequest;
 	
 	/**
 	 * ...
@@ -13,6 +11,7 @@ package chimichanga.common.server {
 		
 		protected function get serverRequest():ServerRequest {
 			
+			//TODO write a ServerRequestPooler pool instances of ServerRequest, then instantiate a pooler here and loan objects from him
 			return new ServerRequest();
 			
 		}
@@ -47,7 +46,7 @@ package chimichanga.common.server {
 			
 			if ( vars is String ) {
 				
-				v.decode( vars );
+				v.decode( String( vars ) );
 				
 			} else {
 				

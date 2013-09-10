@@ -1,31 +1,30 @@
-package server.requests {
+package chimichanga.common.server {
 	import flash.events.Event;
 	import flash.net.URLRequestMethod;
 	import flash.net.URLVariables;
-	import server.loader.DataLoader;
 	
 	/**
 	 * ...
 	 * @author choephix
 	 */
-	public class ServerRequest {
+	internal class ServerRequest {
 		
 		protected const method:String = URLRequestMethod.GET;
 		
-		protected var loader:DataLoader;
+		protected var loader:ServerDataLoader;
 		protected var successCallback:Function;
 		protected var failCallback:Function;
-		private var dataProcessorCallback:Function;
+		protected var dataProcessorCallback:Function;
 		
 		public function ServerRequest() {
 			
-			this.loader = new DataLoader();
+			this.loader = new ServerDataLoader();
 		
 		}
 		
 		/* DELEGATE server.loader.DataLoader */
 		
-		public function load( url:String, vars:URLVariables, 
+		internal function load( url:String, vars:URLVariables, 
 					successCallback:Function, failCallback:Function, 
 					dataProcessorCallback:Function = null ):void {
 			

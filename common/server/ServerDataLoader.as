@@ -1,5 +1,5 @@
-package server.loader
-{
+package chimichanga.common.server {
+	
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
 	import flash.events.ProgressEvent;
@@ -7,21 +7,20 @@ package server.loader
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 	import flash.net.URLVariables;
-
-	public class DataLoader {
+	
+	internal class ServerDataLoader {
 		
 		private var loader:URLLoader;
 		private var request:URLRequest;
 		private var resultCallback:Function;
 		private var failCallback:Function;
 		
-		public function DataLoader() {
+		public function ServerDataLoader() {
 			this.loader = new URLLoader();
 		}
 		
-		public function load( url:String, vars:URLVariables, method:String, 
-						resultCallback:Function = null, failCallback:Function = null ):void {
-							
+		internal function load( url:String, vars:URLVariables, method:String, resultCallback:Function = null, failCallback:Function = null ):void {
+			
 			this.failCallback = failCallback;
 			this.resultCallback = resultCallback;
 			
@@ -34,15 +33,14 @@ package server.loader
 			this.loader.addEventListener( IOErrorEvent.IO_ERROR, onFailed );
 			this.loader.addEventListener( SecurityErrorEvent.SECURITY_ERROR, onFailed );
 			this.loader.load( urlRequest );
-			
+		
 		}
 		
 		private function onProgress( e:ProgressEvent ):void {
 			
 			trace( e.bytesLoaded + " / " + e.bytesTotal );
-			
-		}
 		
+		}
 		
 		private function onLoaded( e:Event ):void {
 			
@@ -50,7 +48,7 @@ package server.loader
 			
 			if ( resultCallback != null )
 				resultCallback( e );
-			
+		
 		}
 		
 		private function onFailed( e:Event ):void {
@@ -59,7 +57,7 @@ package server.loader
 			
 			if ( failCallback != null )
 				failCallback( e );
-			
+		
 		}
 		
 		private function cleanup():void {
@@ -68,9 +66,9 @@ package server.loader
 			this.loader.removeEventListener( Event.COMPLETE, onLoaded );
 			this.loader.removeEventListener( IOErrorEvent.IO_ERROR, onFailed );
 			this.loader.removeEventListener( SecurityErrorEvent.SECURITY_ERROR, onFailed );
-			
-		}
 		
-	}
+		}
 	
+	}
+
 }
