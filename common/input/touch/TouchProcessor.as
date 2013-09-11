@@ -1,4 +1,5 @@
 package chimichanga.common.input.touch {
+	import chimichanga.debug.warn;
 	import starling.events.Touch;
 	
 	/**
@@ -31,6 +32,27 @@ package chimichanga.common.input.touch {
 		
 		}
 		
+		/* INTERFACE chimichanga.common.input.touch.ITouchProcessor */
+		public function onTouch( touch:Touch ):Boolean {
+			
+			if ( _queue == null ) {
+				
+				return;
+				
+			}
+			
+			for ( _i = 0; _i < _queueLen; _i++ ) {
+						
+				if ( _queue[ _i ]( touch ) ) {
+					return true;
+				}
+				
+			}
+			
+			return false;
+		
+		}
+		
 		public function addTouchHandler( handlerCallback:Function ):void {
 			
 			if ( _queue == null ) {
@@ -43,6 +65,18 @@ package chimichanga.common.input.touch {
 		
 		}
 		
+		public function addTouchHandlerToBack( handlerCallback:Function ):void {
+			
+			if ( _queue == null ) {
+				
+				_queue = new Vector.<ITouchProcessor>();
+				
+			}
+			
+			_queueLen = _queue.push( handlerCallback );
+		
+		}
+		
 		public function addTouchHandlers( ... handlers ):void {
 			
 			if ( _queue == null ) {
@@ -51,36 +85,42 @@ package chimichanga.common.input.touch {
 				
 			}
 			
-			//_queueLen = _queue.push.apply( this, handlers );
 			_queueLen = _queue.unshift.apply( this, handlers.reverse() );
+		
+		}
+		
+		public function addTouchHandlersToBack( ... handlers ):void {
+			
+			if ( _queue == null ) {
+				
+				_queue = new Vector.<Function>();
+				
+			}
+			
+			_queueLen = _queue.push.apply( this, handlers );
 		
 		}
 		
 		public function removeTouchHandler( handlerCallback:Function ):void {
 			
-			var i:int = _queue.indexOf( handlerCallback );
-			
-			if ( i > -1 ) {
+			if ( _queue == null ) {
 				
-				_queue.splice( i, 1 );
-				_queueLen--;
-				
-			}
-		
-		}
-		
-		/* INTERFACE chimichanga.common.input.touch.ITouchProcessor */
-		public function onTouch( touch:Touch ):Boolean {
-			
-			for ( _i = 0; _i < _queueLen; _i++ ) {
-						
-				if ( _queue[ _i ]( touch ) ) {
-					return true;
-				}
+				warn( "Tried to remove touch handler from a processor which has none" );
+				return;
 				
 			}
 			
-			return false;
+			_i = _queue.indexOf( handlerCallback );
+			
+			if ( _i <= -1 ) {
+				
+				warn( "Tried to remove touch handler from a processor which doesn't have it in its queue" );
+				return;
+				
+			}
+				
+			_queue.splice( _i, 1 );
+			_queueLen--;
 		
 		}
 	

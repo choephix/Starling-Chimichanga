@@ -18,6 +18,11 @@ package chimichanga.common.input.touch {
 		 * @return	returns <code>true</code> if the touch has been successfully handled by this object and should not be processed further, <code>flase</code> if not and it can be checked by another TouchProcessor.
 		 */
 		function onTouch( touch:Touch ):Boolean;
+		
+		/**
+		 * Cleans up and disposes of all properties of the TouchProcessor.
+		 */
+		function dispose():void;
 	
 	}
 

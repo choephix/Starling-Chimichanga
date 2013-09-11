@@ -1,44 +1,46 @@
-package chimichanga.common.display {
-	import global.Conf;
-	import starling.display.Image;
-	import starling.display.Sprite;
+package chimichanga.gui {
+	import starling.display.DisplayObjectContainer;
+	import starling.display.Quad;
 	import starling.events.Event;
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
-	import starling.textures.Texture;
 	
 	/**
 	 * ...
 	 * @author ...
 	 */
-	public class BackgroundDimmer extends Sprite {
+	public class BackgroundDimmer extends DisplayObjectContainer {
 		
 		private var onClickCallback:Function;
+		private var dim:Quad;
 		
-		public function BackgroundDimmer( texture:Texture, onClickCallback:Function = null ) {
+		public function BackgroundDimmer( parent:DisplayObjectContainer, onClickCallback:Function = null, dimAlpha:Number = .5 ) {
 			
 			this.onClickCallback = onClickCallback;
 			
-			var dim:Image = new Image( texture );
-			dim.width = Conf.DESIGN_W << 1;
-			dim.height = Conf.DESIGN_H << 1;
-			addChild(dim);
+			parent.addChild( this );
 			
+			dim = new Quad( 1, 1, 0x000000 );
+			dim.alpha = dimAlpha;
+			dim.width =  stage.stageWidth;
+			dim.height = stage.stageHeight;
+			addChild( dim );
+				
 			if ( onClickCallback != null ) {
-				hookOnClickCallback();
+				setOnClickCallback();
 			}
 		
 		}
 		
-		private function hookOnClickCallback():void {
+		private function setOnClickCallback():void {
 			
 			if( !stage ) {
-				addEventListener( Event.ADDED_TO_STAGE, hookOnClickCallback );
+				addEventListener( Event.ADDED_TO_STAGE, setOnClickCallback );
 				return;
 			}
 			
-			removeEventListener( Event.ADDED_TO_STAGE, hookOnClickCallback );
+			removeEventListener( Event.ADDED_TO_STAGE, setOnClickCallback );
 			
 			stage.addEventListener( TouchEvent.TOUCH, onTouch );
 			
@@ -54,6 +56,24 @@ package chimichanga.common.display {
 			}
 			
 			_touch = null;
+			
+		}
+		
+		public function hide():void {
+			
+			alpha = 0;
+			
+		}
+		
+		public function show():void {
+			
+			alpha = 1;
+			
+		}
+		
+		public function remove():void {
+			
+			removeFromParent( true );
 			
 		}
 	
