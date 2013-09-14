@@ -7,18 +7,16 @@ package chimichanga.debug {
 	
 	public class Logger {
 		
-		private static const ON:Boolean = true;
+		public static var ON:Boolean = true;
 		
-		private static const EXCEPTIONS_ON:Boolean 	= false; // true false
-		private static const STACK_TRACE_ON:Boolean = false;
+		public static var EXCEPTIONS_ON:Boolean 	= false; // true false
+		public static var STACK_TRACE_ON:Boolean 	= false;
 		
-		/**
-		 * use the following constants as conditions for Log.print(), so you can easily turn them on and off seperately
-		 */
+		/** use the following constants as conditions for Log.print(), so you can easily turn them on and off seperately */
 		
-		public static const CND_UNDEFINED:Boolean	= true; // true false
-		public static const CND_ERRORS:Boolean		= true;
-		public static const CND_WARNINGS:Boolean	= true;
+		internal static const CND_UNDEFINED:Boolean	= true; // true false
+		internal static const CND_ERRORS:Boolean	= true;
+		internal static const CND_WARNINGS:Boolean	= true;
 		
 		private static var _i_:uint = 0;
 		

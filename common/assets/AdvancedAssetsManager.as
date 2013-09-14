@@ -200,10 +200,19 @@ package chimichanga.common.assets
 									juggler:Juggler = null, play:Boolean=false, atlas:String="" ):MovieClip {
 			
 			_textures = getTextures( prefix, atlas );
-			
-			_mc = new MovieClip( _textures, framerate );
+			_mc = getMovieFromTextures( _textures, touchable, framerate, juggler, play );
 			_mc.name = prefix;
+			
+			return _mc;
+			
+		}
+		
+		internal function getMovieFromTextures( textures:Vector.<Texture>=null, touchable:Boolean = false, framerate:Number = 30,
+									juggler:Juggler = null, play:Boolean=false ):MovieClip {
+			
+			_mc = new MovieClip( textures, framerate );
 			_mc.touchable = touchable;
+			_mc.useHandCursor = touchable;
 			
 			if( juggler ) {
 				juggler.add( _mc );
