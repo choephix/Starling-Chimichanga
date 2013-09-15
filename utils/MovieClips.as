@@ -6,7 +6,7 @@ package chimichanga.utils {
 	 * ...
 	 * @author choephix
 	 */
-	public class Clips {
+	public class MovieClips {
 		
 		public static function makeWeak( clip:MovieClip, dispose:Boolean=false ):void {
 			
