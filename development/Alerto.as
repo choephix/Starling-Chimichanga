@@ -1,81 +1,52 @@
 package chimichanga.development {
-	import engine.assets.AssetsBook;
-	import feathers.controls.Label;
-	import feathers.display.Scale9Image;
-	import feathers.textures.Scale9Textures;
 	import flash.geom.Rectangle;
 	import starling.display.DisplayObject;
 	import starling.display.DisplayObjectContainer;
-	import starling.display.Image;
 	import starling.display.Quad;
 	import starling.display.Sprite;
+	import starling.events.Event;
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
+	import starling.text.TextField;
 	
 	/**
 	 * ...
 	 * @author choephix
 	 */
-	public final class Alerto extends Sprite {
+	public final class Alerto extends DisplayObjectContainer {
 		
-		private var overlay:Quad;
-		private var bg:Scale9Image;
-		private var t:Label;
+		private var dimmer:Quad;
+		private var contentContainer:DisplayObjectContainer;
+		private var pad:DisplayObject;
+		private var tf:TextField;
 		private var onOkCallback:Function;
 		
-		public function Alerto( parent:DisplayObjectContainer, text:String, onOkCallback:Function = null, modal:Boolean = false, context:AppContext = null, widthPercentOfScr:Number = NaN, overlayAlpha:Number = .3 ) {
+		private var widthPercentOfScreen:Number = NaN;
+		
+		public function Alerto( text:String, modal:Boolean = false, dimmerAlpha:Number = .3 ) {
 			
 			parent.addChild( this );
 			
-			this.onOkCallback = onOkCallback;
-			
 			if ( modal ) {
-				overlay = new Quad( 10, 10, 0x000000 );
-				overlay.alpha = overlayAlpha;
-				overlay.width = parent.stage.stageWidth;
-				overlay.height = parent.stage.stageHeight;
-				addChild( overlay );
+				dimmer = new Quad( 10, 10, 0x000000 );
+				dimmer.alpha = dimmerAlpha;
+				addChild( dimmer );
 			}
 			
-			if ( context ) {
-				bg = new Scale9Image( new Scale9Textures( context.assets.getAtlasTexture( AssetsBook.MAIN_LIST_ITEM_ELEMENT_BG, AssetsBook.ATLAS_MAIN ), new Rectangle( 100 * context.scaleFactor, 100 * context.scaleFactor, 3 * context.scaleFactor, 3 * context.scaleFactor ) ) );
-				
-				if ( isNaN( widthPercentOfScr ) ) {
-					bg.x = 40 * context.scaleFactor;
-					bg.width = parent.stage.stageWidth - ( 80 * context.scaleFactor );
-				} else {
-					bg.width = parent.stage.stageWidth * widthPercentOfScr / 100;
-					bg.x = ( parent.stage.stageWidth - bg.width ) >> 1;
-				}
-				addChild( bg );
-				
-				t = new Label();
-				t.x = bg.x + ( 20 * context.scaleFactor );
-				t.width = bg.width - ( 40 * context.scaleFactor );
-				t.text = text;
-				t.text += "\n\n(tap to continue)";
-				addChild( t );
-				t.validate();
-				t.y = ( parent.stage.stageHeight - t.height ) >> 1;
-				
-				bg.y = t.y - ( 20 * context.scaleFactor );
-				bg.height = t.height + ( 40 * context.scaleFactor );
-			} else {
-				t = new Label();
-				if ( isNaN( widthPercentOfScr ) )
-					t.width = parent.stage.stageWidth;
-				else {
-					t.width = parent.stage.stageWidth * widthPercentOfScr / 100;
-					t.x = ( parent.stage.stageWidth - t.width ) >> 1;
-				}
-				t.text = text;
-				t.text += "\n\n(tap to continue)";
-				addChild( t );
-				t.validate();
-				t.y = ( parent.height - t.height ) >> 1;
-			}
+			contentContainer = new Sprite();
+			addChild( contentContainer );
 			
-			parent.stage.addEventListener( TouchEvent.TOUCH, onTouch );
+			pad = new Quad( 10, 10, 0xFfFfFf );
+			pad.width  = 500;
+			pad.height = 200;
+			contentContainer.addChild( pad );
+			
+			tf = new TextField( 500, 200, text );
+			contentContainer.addChild( tf );
+			
+			addEventListener( TouchEvent.TOUCH, onTouch );
+			addEventListener( Event.ADDED_TO_STAGE, onAddedToStage ):
+			
 		}
 		
 		private function onTouch( e:TouchEvent ):void {
@@ -90,15 +61,87 @@ package chimichanga.development {
 		
 		}
 		
+		private function onAddedToStage():void {
+			
+			removeEventListener( Event.ADDED_TO_STAGE, onAddedToStage );
+			updateSize();
+			
+		}
+		
+		private function updateSize():void {
+			
+			if( dimmer ) {
+				dimmer.width  = stage.stageWidth;
+				dimmer.height = stage.stageHeight;
+			}
+			
+			if( !isNaN( widthPercentOfScreen ) ) {
+				pad.width = stage.stageWidth * widthPercentOfScreen / 100;
+				tf.width  = stage.stageWidth * widthPercentOfScreen / 100;
+			}
+			
+			pad.x = ( stage.stageWidth - pad.width ) >> 1;
+			tf.x  = ( stage.stageWidth - tf.width ) >> 1;
+			
+		}
+		
+		public function setWidth( width:Number ):void {
+			
+			pad.width = stage.stageWidth - ( 80 );
+			updateSize();
+			
+		}
+		
+		public function setWidthToPercentOfScreen( value:Number ):void {
+			
+			widthPercentOfScreen = value;
+			updateSize();
+			
+		}
+		
+		public function setOkCallback( onOkCallback:Function ):void {
+			
+			this.onOkCallback = onOkCallback;
+			
+		}
+		
 		public function die():void {
 			
-			parent.stage.removeEventListener( TouchEvent.TOUCH, onTouch );
-			
-			parent.removeChild( this );
+			removeEventListener( TouchEvent.TOUCH, onTouch );
+			removeEventListener( Event.ADDED_TO_STAGE, onAddedToStage );
 			
 			removeChildren( 0, numChildren, true );
 			
-			dispose();
+			removeFromParent( true );
+			
+		}
+		
+		///
+		
+		/**
+		 * Add a new Alert
+		 * @param	parent
+		 * @param	text
+		 * @param	onOkCallback
+		 * @param	modal
+		 * @param	dimmerAlpha
+		 * @param	widthPercentOfScr
+		 */
+		public static function add( text:String, parent:DisplayObjectContainer, onOkCallback:Function = null,
+				modal:Boolean = false, dimmerAlpha:Number = .3, widthPercentOfScr:Number = NaN ) {
+			
+			var a:Alerto = new Alerto( text, onOkCallback, modal, dimmerAlpha );
+			
+			if ( onOkCallback ) {
+				a.setOkCallback( onOkCallback );
+			}
+			
+			if ( !isNaN( widthPercentOfScr ) ) {
+				a.setWidthToPercentOfScreen( widthPercentOfScr );
+			}
+			
+			parent.addChild( a );
+			
 		}
 	
 	}
