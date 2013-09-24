@@ -36,6 +36,12 @@ package chimichanga.common.input.keys {
 			
 		}
 		
+		public function addKeyDownListenerAdvanced( keyCode:uint, shift:Boolean, ctrl:Boolean, callback:Function, ...callbackArguments ):void {
+			
+			keyUpListeners.push( { code:keyCode, shift:shift, ctrl:ctrl, f:callback, fargs:callbackArguments } );
+			
+		}
+		
 		public function addNumberKeyDownListener( callback:Function ):void {
 			
 			keyDownListeners.push( { code:Keyboard.NUMBER_0, f:callback, fargs:0} );
@@ -52,16 +58,6 @@ package chimichanga.common.input.keys {
 			
 		}
 		
-		private function dispose():void {
-			
-			keyUpListeners.length = 0;
-			keyDownListeners.length = 0;
-			
-			stage.removeEventListener( KeyboardEvent.KEY_DOWN, onKeyDown );
-			stage.removeEventListener( KeyboardEvent.KEY_UP, onKeyUp );
-		
-		}
-		
 		private function onKeyDown( e:KeyboardEvent ):void {
 			
 			var len:int = keyDownListeners.length;
@@ -73,9 +69,10 @@ package chimichanga.common.input.keys {
 			for ( var i:int = 0, o:Object; i < len; i++ ) {
 				
 				o = keyDownListeners[ i ];
-				if ( o.code == e.keyCode ) {
-					o.f( o.fargs );
-				}
+				if ( o.code  != e.keyCode ) continue;
+				if ( o.ctrl  && !e.ctrlKey ) continue;
+				if ( o.shift && !e.shiftKey ) continue;
+				o.f( o.fargs );
 				
 			}
 		
@@ -99,7 +96,17 @@ package chimichanga.common.input.keys {
 			}
 			
 		}
-	
+		
+		public function dispose():void {
+			
+			keyUpListeners.length = 0;
+			keyDownListeners.length = 0;
+			
+			stage.removeEventListener( KeyboardEvent.KEY_DOWN, onKeyDown );
+			stage.removeEventListener( KeyboardEvent.KEY_UP, onKeyUp );
+		
+		}
+		
 	}
 
 }
