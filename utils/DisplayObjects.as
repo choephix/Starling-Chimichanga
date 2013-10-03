@@ -34,6 +34,23 @@ package chimichanga.utils {
 			
 		}
 		
+		public static function centerPivotsButKeepInPlace( o:DisplayObject ):void {
+			
+			if ( o is SmartDisplayObject ) {
+				
+				SmartDisplayObject(o).centerPivots();
+				
+			} else {
+			
+				o.pivotX = ( o.width  >> 1 );
+				o.pivotY = ( o.height >> 1 );
+				o.x += ( o.width  >> 1 );
+				o.y += ( o.height >> 1 );
+			
+			}
+			
+		}
+		
 		public static function centerPivotX( o:DisplayObject ):void {
 			
 			if ( o is SmartDisplayObject ) {

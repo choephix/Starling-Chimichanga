@@ -45,7 +45,7 @@ package chimichanga.development {
 			contentContainer.addChild( tf );
 			
 			addEventListener( TouchEvent.TOUCH, onTouch );
-			addEventListener( Event.ADDED_TO_STAGE, onAddedToStage ):
+			addEventListener( Event.ADDED_TO_STAGE, onAddedToStage );
 			
 		}
 		
