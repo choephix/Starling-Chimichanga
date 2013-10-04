@@ -32,6 +32,7 @@ package chimichanga.development {
 			
 			subject.removeEventListener( Event.ADDED_TO_STAGE, initialize );
 			
+			subject.removeEventListeners( TouchEvent.TOUCH );
 			subject.addEventListener( TouchEvent.TOUCH, onTouch );
 			subject.addEventListener( Event.REMOVED_FROM_STAGE, dispose );
 			
@@ -39,7 +40,7 @@ package chimichanga.development {
 		
 		private var _touch:Touch;
 		private var _delta:Point;
-		public function onTouch(e:TouchEvent):void {
+		public function onTouch( e:TouchEvent ):void {
 			
 			_touch = e.getTouch( subject );
 			
@@ -53,7 +54,10 @@ package chimichanga.development {
 			}
 			
 			if ( _touch.phase == TouchPhase.ENDED ) {
-				trace( subject + "'s current position: " + subject.x + " x " + subject.y );
+				if( _delta.length > 0 ) {
+					trace( subject + "'s current position: " + subject.x + " x " + subject.y );
+					e.stopPropagation();
+				}
 			}
 			
 		}
