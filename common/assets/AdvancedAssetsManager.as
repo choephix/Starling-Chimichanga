@@ -116,6 +116,7 @@ package chimichanga.common.assets
 		private function getAtlasImage( name:String, atlas:String, touchable:Boolean = false ):Image {
 			
 			_img = new Image( getAtlasTexture( name, atlas ) );
+			_img.name = name;
 			_img.touchable = touchable;
 			_img.useHandCursor = touchable;
 			//_img.blendMode = BlendMode.NONE;
