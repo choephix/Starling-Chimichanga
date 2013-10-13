@@ -52,7 +52,7 @@ package chimichanga.debug {
 				
 					trace( ( clr >= 0 ? clr + ":" : "" ) + msg );
 					
-					logToFile( "[" + new Date().toLocaleTimeString() + "] " +  msg, "all", false );
+					logToFileALLLOG( msg, clr );
 					
 					var filename:String = "main";
 					if ( clr == 0 ) filename = "flow";
@@ -87,6 +87,18 @@ package chimichanga.debug {
 				}
 			
 			}
+			
+		}
+		
+		static private function logToFileALLLOG( msg:String, clr:int ):void {
+			
+			var channel:String = "MAIN";
+			if ( clr == 0 ) channel = "FLOW";
+			if ( clr == 2 ) channel = "WARNING";
+			if ( clr == 3 ) channel = "ERROR";
+			if ( clr == 4 ) channel = "DEBUG";
+			
+			logToFile( "[" + new Date().toLocaleTimeString() + "] [" + channel + "] " +  msg, "all", false );
 			
 		}
 		
