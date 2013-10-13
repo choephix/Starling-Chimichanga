@@ -17,6 +17,7 @@ package chimichanga.common.server {
 		protected var successCallback:Function;
 		protected var failCallback:Function;
 		protected var dataProcessorCallback:Function;
+		protected var onRawDataReceivedCallback:Function;
 		
 		public function ServerRequest() {
 			
@@ -24,15 +25,24 @@ package chimichanga.common.server {
 		
 		}
 		
-		/* DELEGATE server.loader.DataLoader */
-		
+		/**
+		 * 
+		 * @param	url
+		 * @param	vars
+		 * @param	successCallback
+		 * @param	failCallback
+		 * @param	dataProcessorCallback
+		 * @param	onRawDataReceivedCallback	optionally this function can be passed the raw text response from the server, but only after it has separately been parsed and processed with no errors
+		 */
 		internal function load( url:String, vars:URLVariables, 
 					successCallback:Function, failCallback:Function, 
-					dataProcessorCallback:Function = null ):void {
+					dataProcessorCallback:Function = null, 
+					onRawDataReceivedCallback:Function=null ):void {
 			
 			this.successCallback = successCallback;
 			this.failCallback = failCallback;
 			this.dataProcessorCallback = dataProcessorCallback;
+			this.onRawDataReceivedCallback = onRawDataReceivedCallback;
 			
 			loader.load( url, vars, method, onSuccess, onFail );
 		
@@ -41,8 +51,6 @@ package chimichanga.common.server {
 		protected function onSuccess( e:Event ):void {
 			
 			var json:String = String( e.currentTarget.data );
-			
-			//log( "SERVER RESPONSE:\n" + json );
 			
 			log( "SERVER response successful" );
 			
@@ -73,11 +81,17 @@ package chimichanga.common.server {
 				
 			}
 			
+			if ( onRawDataReceivedCallback != null ) {
+				
+				onRawDataReceivedCallback( json );
+				
+			}
+			
 			successCallback( data );
 		
 		}
 		
-		protected function onFail( e:Error = null ):void {
+		protected function onFail( e:* = null ):void {
 			
 			log( "SERVER failed to respond - " + e );
 			

@@ -22,9 +22,9 @@ package chimichanga.common.server {
 			
 		}
 		
-		public function request( urlAddon:String, vars:Object, onReady:Function, onFail:Function, dataProcessor:Function=null ):void {
+		public function request( urlAddon:String, vars:Object, onReady:Function, onFail:Function, dataProcessor:Function=null, onRawDataReceived:Function=null ):void {
 			
-			serverRequest.load( _baseUrl + urlAddon, processUrlVariables( vars ), onReady, onFail, dataProcessor );
+			serverRequest.load( _baseUrl + urlAddon, processUrlVariables( vars ), onReady, onFail, dataProcessor, onRawDataReceived );
 		
 		}
 		
