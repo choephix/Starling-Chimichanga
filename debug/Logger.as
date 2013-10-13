@@ -51,7 +51,7 @@ package chimichanga.debug {
 				
 					trace( ( clr >= 0 ? clr + ":" : "" ) + msg );
 					
-					logToFile( new Date().toTimeString() + "\n" +  msg + "\n", "all", false );
+					logToFile( "[" + new Date().toLocaleTimeString() + "] " +  msg, "all", false );
 					
 					var filename:String = "main";
 					if ( clr == 0 ) filename = "flow";
