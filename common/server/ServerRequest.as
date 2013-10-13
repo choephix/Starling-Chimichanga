@@ -1,4 +1,6 @@
 package chimichanga.common.server {
+	import chimichanga.debug.log;
+	import flash.events.ErrorEvent;
 	import flash.events.Event;
 	import flash.net.URLRequestMethod;
 	import flash.net.URLVariables;
@@ -40,6 +42,10 @@ package chimichanga.common.server {
 			
 			var json:String = String( e.currentTarget.data );
 			
+			//log( "SERVER RESPONSE:\n" + json );
+			
+			log( "SERVER response successful" );
+			
 			if ( !json ) {
 				onFail();
 				return;
@@ -58,7 +64,9 @@ package chimichanga.common.server {
 		
 		}
 		
-		protected function onFail( e:Event = null ):void {
+		protected function onFail( e:ErrorEvent = null ):void {
+			
+			log( "SERVER failed to respond - " + e.text );
 			
 			failCallback( e );
 		

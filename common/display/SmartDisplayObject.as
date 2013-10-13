@@ -1,11 +1,11 @@
 package chimichanga.common.display {
 	import chimichanga.debug.error;
+	import chimichanga.debug.log;
 	import global.Conf;
-	import starling.core.Starling;
+	import starling.display.DisplayObject;
 	import starling.display.Image;
 	import starling.display.MovieClip;
 	import starling.display.Sprite;
-	import starling.display.DisplayObject;
 	import starling.events.Event;
 	
 	/**
@@ -134,7 +134,7 @@ package chimichanga.common.display {
 		
 		private function useOnAnimationEndOnceAndClear(e:Event):void {
 			
-			trace( "useOnAnimationEndOnceAndClear" );
+			log( "useOnAnimationEndOnceAndClear" );
 			
 			MovieClip( currentState ).removeEventListener(
 							Event.COMPLETE, useOnAnimationEndOnceAndClear );

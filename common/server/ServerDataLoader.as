@@ -38,7 +38,7 @@ package chimichanga.common.server {
 		
 		private function onProgress( e:ProgressEvent ):void {
 			
-			trace( e.bytesLoaded + " / " + e.bytesTotal );
+			//trace( e.bytesLoaded + " / " + e.bytesTotal );
 		
 		}
 		

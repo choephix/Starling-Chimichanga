@@ -1,4 +1,5 @@
 package chimichanga.development {
+	import chimichanga.debug.logd;
 	import flash.ui.Keyboard;
 	import starling.display.DisplayObject;
 	import starling.events.Event;
@@ -55,7 +56,7 @@ package chimichanga.development {
 	
 		public function onKeyUp(e:KeyboardEvent):void {
 			
-			trace( subject + "'s current position: " + subject.x + " x " + subject.y );
+			logd( subject + "'s current position: " + subject.x + " x " + subject.y );
 			
 		}
 		

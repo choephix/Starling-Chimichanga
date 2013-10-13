@@ -1,4 +1,5 @@
 package chimichanga.development {
+	import chimichanga.debug.logd;
 	import flash.geom.Point;
 	import starling.display.DisplayObject;
 	import starling.events.Event;
@@ -55,7 +56,7 @@ package chimichanga.development {
 			
 			if ( _touch.phase == TouchPhase.ENDED ) {
 				if( _delta.length > 0 ) {
-					trace( subject + "'s current position: " + subject.x + " x " + subject.y );
+					logd( subject + "'s current position: " + subject.x + " x " + subject.y );
 					e.stopPropagation();
 				}
 			}

@@ -108,8 +108,6 @@ package chimichanga.utils {
 		
 		private static function killMovieCipOnComplete( e:Event ):void {
 			
-			//trace( MovieClip(e.currentTarget).name );
-			
 			e.target.removeEventListener( Event.COMPLETE, killMovieCipOnComplete );
 			MovieClip(e.currentTarget).removeFromParent( true );
 			
