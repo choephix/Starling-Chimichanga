@@ -49,13 +49,16 @@ package chimichanga.debug {
 				
 				if( condition ) {
 				
-					trace( ( clr > 0 ? clr + ":" : "" ) + msg );
+					trace( ( clr >= 0 ? clr + ":" : "" ) + msg );
 					
-					CONFIG::air { //remove this condition when web solution for logging has been added too
-							
-						logToFile( new Date().toTimeString() + "\n" +  msg + "\n", "all", false );
-						
-					}
+					logToFile( new Date().toTimeString() + "\n" +  msg + "\n", "all", false );
+					
+					var filename:String = "main";
+					if ( clr == 0 ) filename = "flow";
+					if ( clr == 2 ) filename = "warnings";
+					if ( clr == 3 ) filename = "errors";
+					if ( clr == 4 ) filename = "debug";
+					logToFile( String( msg ), filename, false );
 				
 				} else {
 			
@@ -92,8 +95,26 @@ package chimichanga.debug {
 		public static function printLog( msg:Object, condition:Boolean = CND_UNDEFINED ):void {
 			
 			print( String( msg ), condition );
+		
+		}
+		
+		//}
+		
+		//{ DEBUG
+		
+		public static function printDebug( ...subjects ):void {
 			
-			logToFile( String( msg ), "main", false );
+			print( String( subjects ), true, 4 );
+		
+		}
+		
+		//}
+		
+		//{ FLOW
+		
+		public static function printFlow( msg:Object, condition:Boolean = CND_UNDEFINED ):void {
+			
+			print( String( msg ), condition, 0 );
 		
 		}
 		
@@ -105,8 +126,6 @@ package chimichanga.debug {
 			
 			print( String( msg ), CND_WARNINGS && condition, 2 );
 			
-			logToFile( String( msg ), "warnings", false );
-		
 		}
 		
 		//}
@@ -119,9 +138,9 @@ package chimichanga.debug {
 			
 			_error = new Error( msg );
 			
-			print( String( STACK_TRACE_ON ? _error.getStackTrace() : msg ), CND_ERRORS, 4 );
+			print( String( STACK_TRACE_ON ? _error.getStackTrace() : msg ), CND_ERRORS, 3 );
 			
-			logToFile( String( msg ), "errors", false );
+			logToFile( _error.getStackTrace(), "errors-stacktrace", false );
 			
 			if ( EXCEPTIONS_ON ) {
 				throw _error;
