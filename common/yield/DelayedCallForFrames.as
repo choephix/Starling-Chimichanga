@@ -1,6 +1,6 @@
 package chimichanga.common.yield {
-	import flash.events.Event;
 	import starling.core.Starling;
+	import starling.display.Stage;
 	import starling.events.EnterFrameEvent;
 	
 	/**
@@ -14,7 +14,7 @@ package chimichanga.common.yield {
 		private var callbackArgs:Array;
 		private var framesCount:int;
 		
-		public function DelayedCallForFrames( callback:Function, callbackArgs:Array, framesCount:int=1 ) {
+		public function DelayedCallForFrames( callback:Function, callbackArgs:Array=null, framesCount:int=1 ) {
 				
 			this.callbackArgs 	= callbackArgs;
 			this.callback 		= callback;

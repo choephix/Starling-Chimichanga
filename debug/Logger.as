@@ -16,6 +16,7 @@ package chimichanga.debug {
 		
 		public static var EXCEPTIONS_ON:Boolean = false; // true false
 		public static var STACK_TRACE_ON:Boolean = false;
+		public static var STACK_TRACE_COMPACT:Boolean = false;
 		public static var LOG_TO_FILES:Boolean = true;
 		
 		internal static const CND_UNDEFINED:Boolean = true; // true false
@@ -140,7 +141,7 @@ package chimichanga.debug {
 			
 			print( String( STACK_TRACE_ON ? _error.getStackTrace() : msg ), CND_ERRORS, 3 );
 			
-			logToFile( _error.getStackTrace(), "errors-stacktrace", false );
+			logToFile( cleanStackTrace( _error.getStackTrace(), String(msg) ), "errors-stacktrace", false );
 			
 			if ( EXCEPTIONS_ON ) {
 				throw _error;
@@ -154,6 +155,44 @@ package chimichanga.debug {
 			
 			return _error;
 		
+		}
+		
+		public static function cleanStackTrace( s:String, cleanMsg:String ):String {
+			
+			const HIDDEN_LINE:String = "    ...";
+			var a:Array = s.split( "\n" );
+			
+			if ( cleanMsg ) 
+				a[ 0 ] = cleanMsg;
+			else
+				a.splice( 0, 1 );
+			
+			for ( var i:int = 0, len:int = a.length; i < len; i++ ) {
+				
+				s = a[ i ];
+				
+				if ( s.indexOf( "chimichanga.debug" ) >= 0 ) {
+					a.splice( i, 1 );
+					len--;
+					i--;
+				}
+				
+				if ( STACK_TRACE_COMPACT && s.indexOf( "at starling." ) >= 0 ) {
+					
+					if( i > 0 && a[ i-1 ] == HIDDEN_LINE ) {
+						a.splice( i, 1 );
+						len--;
+						i--;
+					} else {
+						a[ i ] = HIDDEN_LINE;
+					}
+					
+				}
+				
+			}
+			
+			return ( a.join( "\n" ) );
+			
 		}
 		
 		private static var errorListenersLen:int = 0;

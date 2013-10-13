@@ -7,7 +7,8 @@ package chimichanga.debug {
 		
 	public function error( msg:Object ):void {
 		
-		Logger.printError( arguments.callee + ": " +msg );
+		Logger.printError( msg );
+		//Logger.printError( arguments.callee + ": " +msg );
 		
 	}
 
