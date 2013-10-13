@@ -26,6 +26,12 @@ package chimichanga.utils {
 			return (value + (value >> 31)) ^ (value >> 31);
 		}
 		
+		static public function clip( value:Number, max:Number=1, min:Number=0 ):Number {
+			if ( value >= max ) return max;
+			if ( value <= min ) return min;
+			return value;
+		}
+		
 		/// ANGLES
 		
 		public static function angleFromXY(x:Number, y:Number):Number {
