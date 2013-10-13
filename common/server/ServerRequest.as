@@ -47,12 +47,14 @@ package chimichanga.common.server {
 			log( "SERVER response successful" );
 			
 			if ( !json ) {
-				onFail();
+				onFail( newErrorEvent("server response was an empty string") );
 				return;
 			}
 			
+			var data:Object;
+			
 			try {
-				var data:Object = JSON.parse( json );
+				data = JSON.parse( json );
 			} catch ( e:Error ) {
 				onFail();
 				return;
@@ -60,16 +62,33 @@ package chimichanga.common.server {
 			
 			//TODO PARSING ERRORS + OTHER
 			
-			successCallback( dataProcessorCallback == null ? data : dataProcessorCallback( data ) );
+			if ( dataProcessorCallback != null ) {
+			
+				try {
+					data = dataProcessorCallback( data );
+				} catch ( e:Error ) {
+					onFail( e );
+					return;
+				}
+				
+			}
+			
+			successCallback( data );
 		
 		}
 		
-		protected function onFail( e:ErrorEvent = null ):void {
+		protected function onFail( e:Error = null ):void {
 			
-			log( "SERVER failed to respond - " + e.text );
+			log( "SERVER failed to respond - " + e );
 			
 			failCallback( e );
 		
+		}
+		
+		private function newErrorEvent( text:String ):ErrorEvent {
+			
+			return new ErrorEvent("", false, false, text);
+			
 		}
 		
 	}
