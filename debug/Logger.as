@@ -24,6 +24,7 @@ package chimichanga.debug {
 		internal static const CND_WARNINGS:Boolean = true;
 		
 		private static var _i_:uint = 0;
+		private static var _fileStream_:FileStream;
 		
 		public static function cleanup():void {
 					
@@ -79,10 +80,10 @@ package chimichanga.debug {
 						
 					var outFile:File = File.applicationStorageDirectory;
 					outFile = outFile.resolvePath( "logs\\" + logFileName + ".log" );
-					var outStream:FileStream = new FileStream();
-					outStream.open( outFile, clearPreviousContent ? FileMode.WRITE : FileMode.APPEND );
-					outStream.writeUTFBytes( msg + "\n" );
-					outStream.close();
+					if( !_fileStream_ ) _fileStream_ = new FileStream();
+					_fileStream_.open( outFile, clearPreviousContent ? FileMode.WRITE : FileMode.APPEND );
+					_fileStream_.writeUTFBytes( msg + "\n" );
+					_fileStream_.close();
 				
 				}
 			
@@ -174,7 +175,7 @@ package chimichanga.debug {
 			const HIDDEN_LINE:String = "    ...";
 			var a:Array = s.split( "\n" );
 			
-			if ( cleanMsg ) 
+			if ( cleanMsg )
 				a[ 0 ] = cleanMsg;
 			else
 				a.splice( 0, 1 );
