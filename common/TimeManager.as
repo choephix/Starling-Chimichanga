@@ -16,6 +16,8 @@ package chimichanga.common {
 		public var elapsed:Number = 0;
 		public var speed:Number = 1;
 		
+		public function TimeManager() {}
+		
 		public function update( passedTime:Number ):void {
 			
 			if ( speed < MIN_SPEED ) {
