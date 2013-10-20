@@ -156,14 +156,14 @@ package chimichanga.debug {
 			
 			logToFile( cleanStackTrace( _error.getStackTrace(), String(msg) ), "errors-stacktrace", false );
 			
-			if ( EXCEPTIONS_ON ) {
-				throw _error;
-			}
-			
 			if ( errorListeners != null && errorListeners.length > 0 ) {
 				for ( _i_ = 0; _i_ < errorListeners.length; _i_++ ) {
 					errorListeners[ _i_ ]( _error );
 				}
+			}
+			
+			if ( EXCEPTIONS_ON ) {
+				throw _error;
 			}
 			
 			return _error;
