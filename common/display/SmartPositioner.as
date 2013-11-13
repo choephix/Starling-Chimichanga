@@ -1,6 +1,7 @@
 package chimichanga.common.display {
 	import flash.geom.Point;
 	import starling.display.DisplayObject;
+	import flash.geom.Rectangle;
 	
 	/**
 	 * ...
@@ -14,6 +15,8 @@ package chimichanga.common.display {
 		public var paddingY:Number = 0;
 		
 		public const center:Point = new Point();
+		
+		public const __rect:Rectangle = new Rectangle();
 		
 		public function SmartPositioner( w:Number, h:Number) {
 			
@@ -37,39 +40,43 @@ package chimichanga.common.display {
 			
 		}
 		
-		public function positionAtRatioX( o:DisplayObject, x:Number ):void {
+		public function positionAtRatioX( o:DisplayObject, x:Number ):int {
 			
-			o.x = int ( ( w - o.width  + o.pivotX * o.scaleX ) * x );
-			
-		}
-		
-		public function positionAtRatioY( o:DisplayObject, y:Number ):void {
-			
-			o.y = int ( ( h - o.height + o.pivotY * o.scaleY ) * y );
+			o.getBounds( o, __rect );
+			return o.x = int ( ( w - __rect.width - __rect.x ) * x );
+			//return o.x = int ( ( w - o.width + o.pivotX * o.scaleX ) * x );
 			
 		}
 		
-		public function getFromRatioX( x:Number ):void {
+		public function positionAtRatioY( o:DisplayObject, y:Number ):int {
 			
-			return = int ( w * x );
-			
-		}
-		
-		public function getFromRatioY( y:Number ):void {
-			
-			return = int ( h * y );
+			o.getBounds( o, __rect );
+			return o.y = int ( ( h - __rect.height - __rect.y ) * y );
+			//return o.y = int ( ( h - o.height + o.pivotY * o.scaleY ) * y );
 			
 		}
 		
-		public function getCenterX():void {
+		public function getFromRatioX( x:Number ):int {
 			
-			return = int ( w >> 1 );
+			return int ( w * x );
 			
 		}
 		
-		public function getCenterY():void {
+		public function getFromRatioY( y:Number ):int {
 			
-			return = int ( h >> 1 );
+			return int ( h * y );
+			
+		}
+		
+		public function getCenterX():int {
+			
+			return int ( w >> 1 );
+			
+		}
+		
+		public function getCenterY():int {
+			
+			return int ( h >> 1 );
 			
 		}
 	
