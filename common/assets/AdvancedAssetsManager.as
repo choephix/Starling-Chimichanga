@@ -167,12 +167,7 @@ package chimichanga.common.assets
 		
 		public function getImage( name:String, touchable:Boolean = false, atlas:String="" ):Image {
 			
-			_img = new Image( getTexture( name, atlas ) );
-			_img.name = name;
-			_img.touchable = touchable;
-			_img.useHandCursor = touchable;
-			
-			return _img;
+			return getImageFromTexture( getTexture( name, atlas ), touchable );
 			
 		}
 		
@@ -197,8 +192,7 @@ package chimichanga.common.assets
 			
 		}
 		
-		public function getMovie( prefix:String, touchable:Boolean = false, framerate:Number = 30,
-									juggler:Juggler = null, play:Boolean=false, atlas:String="" ):MovieClip {
+		public function getMovie( prefix:String, touchable:Boolean = false, framerate:Number = 30, juggler:Juggler = null, play:Boolean=false, atlas:String="" ):MovieClip {
 			
 			_textures = getTextures( prefix, atlas );
 			_mc = getMovieFromTextures( _textures, touchable, framerate, juggler, play );
@@ -208,8 +202,18 @@ package chimichanga.common.assets
 			
 		}
 		
-		internal function getMovieFromTextures( textures:Vector.<Texture>=null, touchable:Boolean = false, framerate:Number = 30,
-									juggler:Juggler = null, play:Boolean=false ):MovieClip {
+		public function getImageFromTexture( texture:Texture, touchable:Boolean = false ):Image {
+			
+			_img = new Image( texture );
+			_img.name = name;
+			_img.touchable = touchable;
+			_img.useHandCursor = touchable;
+			
+			return _img;
+			
+		}
+		
+		internal function getMovieFromTextures( textures:Vector.<Texture>=null, touchable:Boolean = false, framerate:Number = 30, juggler:Juggler = null, play:Boolean=false ):MovieClip {
 			
 			_mc = new MovieClip( textures, framerate );
 			_mc.touchable = touchable;
