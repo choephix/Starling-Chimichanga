@@ -7,7 +7,7 @@ package chimichanga.common.server {
 	 */
 	public class ServerCommunicatorBase {
 		
-		protected var _baseUrl:String = 'http://dev.loc.thechoephix.com/api/';
+		protected var _baseUrl:String = '';
 		
 		protected function get serverRequest():ServerRequest {
 			
