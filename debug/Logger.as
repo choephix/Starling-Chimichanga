@@ -148,9 +148,9 @@ package chimichanga.debug {
 		
 		private static var _error:Error;
 		
-		public static function printError( msg:Object ):Error {
+		public static function printError( msg:Object, id:int=3000001 ):Error {
 			
-			_error = new Error( msg );
+			_error = new Error( msg, id );
 			
 			print( String( STACK_TRACE_ON ? _error.getStackTrace() : msg ), CND_ERRORS, 3 );
 			
