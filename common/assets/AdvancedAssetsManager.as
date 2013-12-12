@@ -180,10 +180,10 @@ package chimichanga.common.assets
 			
 		}
 		
-		public function getImageFromTexture( texture:Texture, touchable:Boolean = false ):Image {
+		public function getImageFromTexture( texture:Texture, touchable:Boolean = false, name:String=null ):Image {
 			
 			_img = new Image( texture );
-			_img.name = name;
+			_img.name = name ? name : _img.name;
 			_img.touchable = touchable;
 			_img.useHandCursor = touchable;
 			
