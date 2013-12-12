@@ -7,8 +7,6 @@ package chimichanga.common.assets
 	import starling.animation.Juggler;
 	import starling.display.Image;
 	import starling.display.MovieClip;
-	import starling.extensions.krecha.ScrollImage;
-	import starling.extensions.krecha.ScrollTile;
 	import starling.textures.Texture;
 	import starling.textures.TextureAtlas;
 	import starling.utils.AssetManager;
@@ -170,29 +168,9 @@ package chimichanga.common.assets
 			return getImageFromTexture( getTexture( name, atlas ), touchable );
 			
 		}
-		
-		public function getScrollImage( name:String, touchable:Boolean = false, atlas:String="", width:Number=-1, height:Number=-1 ):ScrollImage {
-			
-			_texture = getTexture( name, atlas );
-			
-			if ( width <= 0 ) {
-				width = _texture.width;
-			}
-			
-			if ( height <= 0 ) {
-				height = _texture.height;
-			}
-			
-			var _simg:ScrollImage = new ScrollImage( width, height );
-			_simg.addLayer( new ScrollTile( _texture, false ) );
-			_simg.touchable = touchable;
-			_simg.useHandCursor = touchable;
-			
-			return _simg;
-			
-		}
-		
-		public function getMovie( prefix:String, touchable:Boolean = false, framerate:Number = 30, juggler:Juggler = null, play:Boolean=false, atlas:String="" ):MovieClip {
+
+		public function getMovie( prefix:String, touchable:Boolean = false, framerate:Number = 30,
+									juggler:Juggler = null, play:Boolean=false, atlas:String="" ):MovieClip {
 			
 			_textures = getTextures( prefix, atlas );
 			_mc = getMovieFromTextures( _textures, touchable, framerate, juggler, play );
@@ -213,7 +191,8 @@ package chimichanga.common.assets
 			
 		}
 		
-		internal function getMovieFromTextures( textures:Vector.<Texture>=null, touchable:Boolean = false, framerate:Number = 30, juggler:Juggler = null, play:Boolean=false ):MovieClip {
+		internal function getMovieFromTextures( textures:Vector.<Texture>=null, touchable:Boolean = false, framerate:Number = 30,
+									juggler:Juggler = null, play:Boolean=false ):MovieClip {
 			
 			_mc = new MovieClip( textures, framerate );
 			_mc.touchable = touchable;
