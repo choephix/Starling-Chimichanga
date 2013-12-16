@@ -1,7 +1,10 @@
 package chimichanga.common.server {
+	import chimichanga.debug.error;
 	import chimichanga.debug.log;
 	import flash.events.ErrorEvent;
 	import flash.events.Event;
+	import flash.events.IOErrorEvent;
+	import flash.events.SecurityErrorEvent;
 	import flash.net.URLRequestMethod;
 	import flash.net.URLVariables;
 	
@@ -44,28 +47,36 @@ package chimichanga.common.server {
 			this.dataProcessorCallback = dataProcessorCallback;
 			this.onRawDataReceivedCallback = onRawDataReceivedCallback;
 			
-			loader.load( url, vars, method, onSuccess, onFail );
+			loader.load( url, vars, method, onLoaderSuccess, onLoaderFailure );
 		
 		}
 		
-		protected function onSuccess( e:Event ):void {
+		protected function onLoaderSuccess( e:Event ):void {
 			
 			var json:String = String( e.currentTarget.data );
 			
-			log( "SERVER response successful" );
+			log( "SERVER successfully responded with something..." );
 			
 			if ( !json ) {
-				onFail( newErrorEvent("server response was an empty string") );
+				
+				fail( newError( "server response was an empty string" ) );
+				
 				return;
+				
 			}
 			
 			var data:Object;
 			
 			try {
+				
 				data = JSON.parse( json );
+				
 			} catch ( e:Error ) {
-				onFail();
+				
+				fail( newError( "Parsing Error -- " + e.message ) );
+				
 				return;
+				
 			}
 			
 			//TODO PARSING ERRORS + OTHER
@@ -73,17 +84,30 @@ package chimichanga.common.server {
 			if ( dataProcessorCallback != null ) {
 			
 				try {
+					
 					data = dataProcessorCallback( data );
+					
 				} catch ( e:Error ) {
-					onFail( e );
+					
+					fail( newError( "dataProcessorCallback Failed -- " + e.message ) );
+					
 					return;
+					
 				}
 				
 			}
 			
-			if ( onRawDataReceivedCallback != null ) {
+			try { 
+			
+				if ( onRawDataReceivedCallback != null ) {
+					
+					onRawDataReceivedCallback( json );
+					
+				}
+			
+			} catch ( e:Error ) {
 				
-				onRawDataReceivedCallback( json );
+				error( e );
 				
 			}
 			
@@ -91,17 +115,43 @@ package chimichanga.common.server {
 		
 		}
 		
-		protected function onFail( e:* = null ):void {
+		private function onLoaderFailure( e:ErrorEvent ):void {
 			
-			log( "SERVER failed to respond - " + e );
+			function newErrorFromEvent( prefix:String ):ServerCommunicationError {
+				
+				return newError( prefix + " (" + e.type + "): " + e.text );
+				
+			}
+			
+			if ( e is IOErrorEvent ) {
+				
+				fail( newErrorFromEvent( "IOError" ) );
+				return;
+				
+			}
+			
+			if ( e is SecurityErrorEvent ) {
+			
+				fail( newErrorFromEvent( "SecurityError" ) );
+				return;
+				
+			}
+			
+			fail( newErrorFromEvent( "UncomprehendableError" ) );
+			
+		}
+		
+		protected function fail( e:ServerCommunicationError = null ):void {
+			
+			error( "SERVER communication error -- " + e.message );
 			
 			failCallback( e );
 		
 		}
 		
-		private function newErrorEvent( text:String ):ErrorEvent {
+		private function newError( text:String, id:int=0 ):ServerCommunicationError {
 			
-			return new ErrorEvent("", false, false, text);
+			return new ServerCommunicationError( text );
 			
 		}
 		
