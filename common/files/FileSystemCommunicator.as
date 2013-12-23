@@ -1,13 +1,6 @@
 package chimichanga.common.files {
 	import chimichanga.debug.log;
-	import flash.errors.IOError;
-	import flash.events.Event;
-	import flash.events.IOErrorEvent;
-	import flash.events.OutputProgressEvent;
-	import flash.events.ProgressEvent;
 	import flash.filesystem.File;
-	import flash.filesystem.FileMode;
-	import flash.filesystem.FileStream;
 	
 	/**
 	 * ...

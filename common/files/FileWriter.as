@@ -50,7 +50,6 @@ package chimichanga.common.files {
 			this.str = new FileStream();
 			
 			str.addEventListener( OutputProgressEvent.OUTPUT_PROGRESS, onEventProgress );
-			str.addEventListener( Event.COMPLETE, onEventComplete );
 			str.addEventListener( IOErrorEvent.IO_ERROR, onEventIOError );
 			
 			str.openAsync( file, FileMode.WRITE );
@@ -70,20 +69,16 @@ package chimichanga.common.files {
 				onProgress( 1 - ( e.bytesPending / e.bytesTotal ) );
 				
 			}
-		
-		}
-		
-		private function onEventComplete( e:Event ):void {
 			
-			log( "[SaveToFile]: Completed successfully" );
+			if ( e.bytesPending <= 0 ) {
 			
-			if ( onSuccess != null ) {
+				log( "[SaveToFile]: 0 bytes pending => complete" );
 				
 				onSuccess();
 				
+				onFinished();
+				
 			}
-			
-			onFinished();
 		
 		}
 		
@@ -122,7 +117,6 @@ package chimichanga.common.files {
 			log( "[SaveToFile]: Cleaning up" );
 			
 			str.removeEventListener( ProgressEvent.PROGRESS, onEventProgress );
-			str.removeEventListener( Event.COMPLETE, onEventComplete );
 			str.removeEventListener( IOErrorEvent.IO_ERROR, onEventIOError );	
 			
 			str.close();
