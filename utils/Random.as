@@ -38,8 +38,6 @@ package chimichanga.utils {
 			
 			index = 0;
 			
-			trace( pool );
-			
 		}
 	
 	}
