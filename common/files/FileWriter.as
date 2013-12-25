@@ -74,7 +74,11 @@ package chimichanga.common.files {
 			
 				log( "[SaveToFile]: 0 bytes pending => complete" );
 				
-				onSuccess();
+				if( onSuccess != null ) {
+					
+					onSuccess();
+					
+				}
 				
 				onFinished();
 				
