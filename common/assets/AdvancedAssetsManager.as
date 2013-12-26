@@ -69,6 +69,18 @@ package chimichanga.common.assets
 			
 		}
 		
+		public function hasTexture( name:String ):Boolean {
+			
+			return Boolean( assets.getTexture( name ) );
+			
+		}
+		
+		public function hasTextureAtlas( name:String ):Boolean {
+			
+			return Boolean( assets.getTextureAtlas( name ) );
+			
+		}
+		
 		///
 		
 		private function getAtlasTexture( name:String, atlas:String ):Texture {
