@@ -279,6 +279,12 @@ package chimichanga.common.assets
 			System.gc();
 		}
 		
+		public function toString():String {
+			
+			return "[AdvancedAssetsManager assetsReady=" + assetsReady + "]";
+			
+		}
+		
 	}
 
 }

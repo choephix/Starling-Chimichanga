@@ -45,6 +45,12 @@ package chimichanga.common {
 			baseSpeed = value;
 			
 		}
+		
+		public function toString():String {
+			
+			return "[TimeManager delta=" + int( delta * 1000 ) + " elapsed=" + int( elapsed ) + " speed=" + speed + "]";
+			
+		}
 	
 	}
 
