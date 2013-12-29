@@ -1,6 +1,8 @@
 package chimichanga.common.files {
 	import chimichanga.debug.log;
+	CONFIG::air {
 	import flash.filesystem.File;
+	}
 	
 	/**
 	 * ...
@@ -8,6 +10,8 @@ package chimichanga.common.files {
 	 */
 	public class FileSystemCommunicator {
 		
+		CONFIG::air {
+			
 		private var writer:FileWriter;
 		private var reader:FileReader;
 		
@@ -34,6 +38,8 @@ package chimichanga.common.files {
 			reader.read( ( storage ? File.applicationStorageDirectory.resolvePath : File.applicationDirectory.resolvePath )( relativePath ),
 				String, onSuccess, onFailure, onProgress );
 			
+		}
+		
 		}
 	
 	}

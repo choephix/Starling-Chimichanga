@@ -24,20 +24,22 @@ package chimichanga.debug {
 		internal static const CND_WARNINGS:Boolean = true;
 		
 		private static var _i_:uint = 0;
+		CONFIG::air {
 		private static var _fileStream_:FileStream;
+		}
 		
 		public static function cleanup():void {
+				
+			CONFIG::air {
 					
 			if ( LOG_TO_FILES ) {
-				
-				CONFIG::air {
 						
 					logToFile( "", "main", true );
 					logToFile( "", "warnings", true );
 					logToFile( "", "errors", true );
 					logToFile( "", "hidden", true );
 				
-				}
+			}
 			
 			}
 			
@@ -73,10 +75,10 @@ package chimichanga.debug {
 		}
 		
 		private static function logToFile( msg:String, logFileName:String, clearPreviousContent:Boolean ):void {
+				
+			CONFIG::air {
 					
 			if ( LOG_TO_FILES ) {
-				
-				CONFIG::air {
 						
 					var outFile:File = File.applicationStorageDirectory;
 					outFile = outFile.resolvePath( "logs\\" + logFileName + ".log" );
@@ -84,9 +86,9 @@ package chimichanga.debug {
 					_fileStream_.open( outFile, clearPreviousContent ? FileMode.WRITE : FileMode.APPEND );
 					_fileStream_.writeUTFBytes( msg + "\n" );
 					_fileStream_.close();
-				
-				}
 			
+			}
+				
 			}
 			
 		}
