@@ -111,7 +111,7 @@ package chimichanga.common.display {
 		
 		private function enable(state:DisplayObject, resetOnMovieEnd:Boolean = false):void {
 			
-			if ( state is MovieClip && Conf.PLAY_MOVIECLIPS ) {
+			if ( state is MovieClip ) {
 				
 				_mc = MovieClip(state);
 				
@@ -185,7 +185,7 @@ package chimichanga.common.display {
 		
 		public function play():void {
 			
-			if ( currentState is MovieClip && Conf.PLAY_MOVIECLIPS ) {
+			if ( currentState is MovieClip ) {
 				MovieClip( currentState ).play();
 			}
 			
@@ -193,7 +193,7 @@ package chimichanga.common.display {
 		
 		public function stop():void {
 			
-			if ( currentState is MovieClip && Conf.PLAY_MOVIECLIPS ) {
+			if ( currentState is MovieClip ) {
 				MovieClip( currentState ).stop();
 			}
 			
