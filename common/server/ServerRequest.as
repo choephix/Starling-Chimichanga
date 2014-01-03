@@ -1,6 +1,7 @@
 package chimichanga.common.server {
 	import chimichanga.debug.error;
 	import chimichanga.debug.log;
+	import chimichanga.debug.warn;
 	import flash.events.ErrorEvent;
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
@@ -143,7 +144,7 @@ package chimichanga.common.server {
 		
 		protected function fail( e:ServerCommunicationError = null ):void {
 			
-			error( "SERVER communication error -- " + e.message );
+			warn( "SERVER communication error -- " + e.message );
 			
 			failCallback( e );
 		
