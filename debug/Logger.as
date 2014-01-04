@@ -23,7 +23,7 @@ package chimichanga.debug {
 		internal static const CND_ERRORS:Boolean = true;
 		internal static const CND_WARNINGS:Boolean = true;
 		
-		private static var _i_:uint = 0;
+		private static var __i:uint = 0;
 		CONFIG::air {
 		private static var _fileStream_:FileStream;
 		}
@@ -138,12 +138,41 @@ package chimichanga.debug {
 		
 		//{ WARNINGS
 		
+		private static var warningListenersLen:int = 0;
+		private static var warningListeners:Vector.<Function>;
+		
 		public static function printWarning( msg:Object, condition:Boolean = CND_UNDEFINED ):void {
 			
 			print( String( msg ), CND_WARNINGS && condition, 2 );
 			
+			if ( warningListeners != null && warningListenersLen > 0 ) {
+				for ( __i = 0; __i < warningListenersLen; __i++ ) {
+					warningListeners[ __i ]( msg );
+				}
+			}
+			
 		}
 		
+		public static function addWarningListener( callback:Function ):void {
+			if ( warningListeners == null ) {
+				warningListeners = new Vector.<Function>();
+			}
+			warningListeners.push( callback );
+			warningListenersLen++;
+		}
+		
+		public static function removeWarningListener( callback:Function ):void {
+			if ( warningListeners != null && warningListeners.indexOf( callback ) >= 0 ) {
+				warningListeners.splice( warningListeners.indexOf( callback ), 1 );
+				warningListenersLen--;
+			}
+		}
+		
+		public static function clearWarningListeners():void {
+			warningListeners.length = 0;
+			warningListenersLen = 0;
+		}
+	
 		//}
 		
 		//{ ERRORS
@@ -158,9 +187,9 @@ package chimichanga.debug {
 			
 			logToFile( cleanStackTrace( _error.getStackTrace(), String(msg) ), "errors-stacktrace", false );
 			
-			if ( errorListeners != null && errorListeners.length > 0 ) {
-				for ( _i_ = 0; _i_ < errorListeners.length; _i_++ ) {
-					errorListeners[ _i_ ]( _error );
+			if ( errorListeners != null && errorListenersLen > 0 ) {
+				for ( __i = 0; __i < errorListenersLen; __i++ ) {
+					errorListeners[ __i ]( _error );
 				}
 			}
 			
